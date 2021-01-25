@@ -21,8 +21,5 @@ class PluginApp(PluginConfig):
         category = "CUSTOMIZATION"
         compatibility = "pretix>=3.0.0"
 
-    def ready(self):
-        from . import signals  # NOQA
-
 
 default_app_config = "pretix_hide_sold_out.PluginApp"

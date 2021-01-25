@@ -1,9 +1,20 @@
 Hide sold out events
-==========================
+====================
 
-This is a plugin for `pretix`_. 
+This is a plugin for `pretix`_.  It provides a cronjob that automatically sets ``is_public`` to ``False`` on any
+event series as soon as all future dates in the series are sold out.
 
-Hide sold out events
+How to use
+----------
+
+- Install the plugin on the server, e.g. from ``pip install git+https://github.com/pretix-unofficial/pretix-hide-sold-out.git@main#egg=pretix-hide-sold-out``
+
+- Enable the plugin in the events that you want to be affected.
+
+- Set up a new cronjob that executes ``python -m pretix hide_sold_out``. Pass ``--allow-republish`` if you want the
+  command to also re-publish events that are currently ``is_public=False`` but have available quota. Pass ``--dry-run``
+  to see what the command would do without actually executing it.
+
 
 Development setup
 -----------------
