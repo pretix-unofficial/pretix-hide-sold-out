@@ -51,7 +51,10 @@ class Command(BaseCommand):
                 for se in subevents:
                     if quotas_to_compute:
                         se._quota_cache = qa.results
-                    if se.best_availability_state == Quota.AVAILABILITY_OK:
+                    if se.best_availability_state in (
+                        Quota.AVAILABILITY_RESERVED,
+                        Quota.AVAILABILITY_OK,
+                    ):
                         any_available = True
                         break
             else:
@@ -61,7 +64,8 @@ class Command(BaseCommand):
                     qa.queue(*quotas_to_compute)
                     qa.compute()
                 any_available = any(
-                    r[0] == Quota.AVAILABILITY_OK for r in qa.results.values()
+                    r[0] in (Quota.AVAILABILITY_RESERVED, Quota.AVAILABILITY_OK)
+                    for r in qa.results.values()
                 )
 
             if any_available and not e.is_public and options.get("allow_republish"):
