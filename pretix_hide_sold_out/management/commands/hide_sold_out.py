@@ -41,12 +41,11 @@ class Command(BaseCommand):
                     quotas_to_compute += [
                         q
                         for q in se.active_quotas
-                        if not q.cache_is_hot(now() + timedelta(seconds=5))
                     ]
                 if quotas_to_compute:
                     qa = QuotaAvailability()
                     qa.queue(*quotas_to_compute)
-                    qa.compute()
+                    qa.compute(allow_cache=True)
                 any_available = False
                 for se in subevents:
                     if quotas_to_compute:
@@ -62,7 +61,7 @@ class Command(BaseCommand):
                 if quotas_to_compute:
                     qa = QuotaAvailability()
                     qa.queue(*quotas_to_compute)
-                    qa.compute()
+                    qa.compute(allow_cache=True)
                 any_available = any(
                     r[0] in (Quota.AVAILABILITY_RESERVED, Quota.AVAILABILITY_OK)
                     for r in qa.results.values()
