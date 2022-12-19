@@ -8,6 +8,7 @@ except ImportError:
 
 
 class PluginApp(PluginConfig):
+    default = True
     name = "pretix_hide_sold_out"
     verbose_name = "Hide sold out events"
 
